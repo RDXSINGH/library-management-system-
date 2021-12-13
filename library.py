@@ -12,7 +12,7 @@ class LibrarySystem:
         self.root.title("LIBRARY MANAGEMENT SYSYTEM")
         self.root.geometry("1550x800+0+0")
 
-
+#===================variable===============================================
         self.member_var=StringVar()
         
         self.prn_var=StringVar()
@@ -185,17 +185,44 @@ class LibrarySystem:
         listScroll=Scrollbar(dfr)
         listScroll.grid(row=0,column=1,sticky="ns")
 
-        listbooks=["python for everybody","python cook book","ML","SATA","DATAsCIENCE","MEGA","PHYSICS","CHEM","math"]
+        listbooks=["python for everybody","python cook book","ML","SATA","DATAsCIENCE","MEGA","PHYSICS","CHEM","math","chem12","pyth","php","laugh","meta","data","whydata","crazy"
+                    ,"elif","wanderland","error in life","me vs u","however","dataleak","hanuman ji","god ganesh","clock","clear"]
+
+        print("194")
+        def SelectBook(events=""):
+            value=str(listBox.get(listBox.curselection()))
+            x=value
+            if (x=="python for everybody"):
+                print("195")
+                self.bookid_var.set("BKL55")
+                print("196")
+                self.booktitle_var.set("python")
+                print("197")
+                self.author_var.set("charles ")
+                print("198")
+                d1=datetime.datetime.today()
+                d2=datetime.timedelta(days=15)
+                d3=d1+d2
+                self.dateborrowed_var.set(d1)
+                self.datedue_var.set(d3)
+                self.daysonbook.set(15)
+                self.lateratefine_var.set("rs 50")
+                self.dateoverdue.set("no")
+                self.finallprice.set("rs.786")  
 
 
-
+        
 
         listBox=Listbox(dfr,font=("times new roman",12,"bold"),width=32,height=16)
-        listBox.grid(row=0,column=0,padx=4,pady=0)
+                #for binding all selectbook data 
+        listBox.bind("<<ListboxSelect>>",SelectBook)
+
+        listBox.grid(row=0,column=0,padx=4)
+
         listScroll.config(command=listBox.yview)
 
         for item in listbooks:
-            listBox.insert(END,item)
+            listBox.insert(END, item)
 
 
 
@@ -241,7 +268,7 @@ class LibrarySystem:
 
         self.libtable=ttk.Treeview(Table_frame,column=("membertype","PRNno","IDNo","FirstName","LastName","Address1","Address2",
                                                         "Postalcode","Mobile","BookId","BookTitle","Authorname","DateBorrowed",
-                                                        "DateDue","DaysonBook","LateReturnFine","DateoverDue","ActualPrice",),xscrollcommand=xscroll.set,yscrollcommand=xscroll.set)
+                                                        "DateDue","DaysonBook","LateReturnFine","DateoverDue","FinalPrice",),xscrollcommand=xscroll.set,yscrollcommand=xscroll.set)
 
         xscroll.pack(side=BOTTOM,fill=X)
         yscroll.pack(side=RIGHT,fill=Y)
@@ -266,7 +293,7 @@ class LibrarySystem:
         self.libtable.heading("DaysonBook", text="Days on Book ")
         self.libtable.heading("LateReturnFine", text="Late Return Fine")
         self.libtable.heading("DateoverDue", text="Date over Due ")
-        self.libtable.heading("ActualPrice", text="Actual Price ")
+        self.libtable.heading("FinalPrice", text="Actual Price ")
 
         self.libtable["show"]="headings"
         self.libtable.pack(fill=BOTH,expand=1)
@@ -289,14 +316,14 @@ class LibrarySystem:
         self.libtable.column("DaysonBook",width=100)
         self.libtable.column("LateReturnFine",width=100)
         self.libtable.column("DateoverDue",width=100)
-        self.libtable.column("ActualPrice",width=100)
+        self.libtable.column("FinalPrice",width=100)
 
         
 
         #mysql se connection
         #uske baad cursor ke help se sabhi datako database mai add karenge
     def add_data(self):
-        conn=mysql.connector.connect(host='localhost',username="root",password="kishan1234",database="mydata")
+        conn=mysql.connector.connect(host="localhost",username="root",password="kishan1234",database="mydata")
         my_cursor=conn.cursor()
         my_cursor.execute("insert into library values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(
 
@@ -318,10 +345,10 @@ class LibrarySystem:
                                                                                                                 self.lastname_var.get(),
                                                                                                                 self.dateoverdue.get(),
                                                                                                                 self.finallprice.get()
-                                                                                                                ))
-        conn.commit()
+        ))
+        conn.commit() 
         conn.close()
-
+        print("sql connection successfully")
         messagebox.showinfo("success","member has been inserted successfully")
         
 
